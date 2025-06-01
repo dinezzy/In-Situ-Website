@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Recipe Finder - What Can I Cook?</title>
+    <meta name="description" content="Discover delicious Indian recipes based on ingredients you have at home">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'recipe-orange': '#FF6B35',
+                        'recipe-cream': '#FFF8F3',
+                        'recipe-dark': '#2D3748',
+                        'recipe-light': '#F7FAFC'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-recipe-cream font-sans">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-recipe-orange rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">🍛</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-recipe-dark">Indian Recipe Finder</h1>
+                        <p class="text-xs text-gray-500 hidden sm:block">Cook with what you have</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-gray-700 hover:text-recipe-orange transition-colors">Home</a>
+                    <a href="#recipes" class="text-gray-700 hover:text-recipe-orange transition-colors">Recipes</a>
+                    <a href="#about" class="text-gray-700 hover:text-recipe-orange transition-colors">About</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <button 
+                    id="cookButton"
+                    class="bg-recipe-orange text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                    🍽️ What Can I Cook?
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Hero Content -->
+            <div class="mb-12">
+                <h1 class="text-5xl md:text-7xl font-bold text-recipe-dark mb-6 leading-tight">
+                    Discover Amazing
+                    <span class="text-recipe-orange block">Indian Recipes</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Transform your available ingredients into delicious Indian dishes with our smart recipe finder
+                </p>
+                
+                <!-- Main CTA -->
+                <button 
+                    id="mainCookButton"
+                    class="bg-recipe-orange text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-xl"
+                >
+                    🍽️ Start Cooking Now
+                </button>
+            </div>
+            
+            <!-- Feature Cards -->
+            <div class="grid md:grid-cols-3 gap-6 mt-16">
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">🥘</div>
+                    <h3 class="text-lg font-semibold text-recipe-dark mb-2">Authentic Recipes</h3>
+                    <p class="text-gray-600">Traditional Indian recipes with modern convenience</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-lg font-semibold text-recipe-dark mb-2">Instant Results</h3>
+                    <p class="text-gray-600">Get recipe suggestions in seconds based on your ingredients</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-lg font-semibold text-recipe-dark mb-2">Mobile Friendly</h3>
+                    <p class="text-gray-600">Cook anywhere with our responsive design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Finder Section -->
+    <section id="recipes" class="min-h-screen py-16 px-4 hidden">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <button 
+                    id="backButton"
+                    class="inline-flex items-center text-recipe-orange hover:text-orange-600 mb-6 transition-colors"
+                >
+                    ← Back to Home
+                </button>
+                <h2 class="text-4xl md:text-5xl font-bold text-recipe-dark mb-4">
+                    🍽️ What Can I Cook?
+                </h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Enter your available ingredients and discover amazing Indian recipes
+                </p>
+            </div>
+            
+            <!-- Ingredient Input -->
+            <div class="max-w-2xl mx-auto mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <label for="ingredientInput" class="block text-sm font-medium text-recipe-dark mb-2">
+                        Available Ingredients
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="ingredientInput"
+                            placeholder="e.g., onion, egg, milk, rice, tomato, potato"
+                            class="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-xl focus:border-recipe-orange focus:outline-none transition-colors pr-32"
+                        >
+                        <button 
+                            id="findRecipesButton"
+                            class="absolute right-2 top-2 bg-recipe-orange text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+                        >
+                            Find Recipes
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Separate ingredients with commas</p>
+                </div>
+                
+                <!-- Quick Suggestions -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm font-medium text-recipe-dark mb-3">Quick suggestions:</p>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <button class="ingredient-suggestion bg-recipe-light text-recipe-dark px-3 py-1 rounded-full text-sm hover:bg-recipe-orange hover:text-white transition-colors" data-ingredients="onion, tomato, rice">
+                            🍚 Rice Bowl
+                        </button>
+                        <button class="ingredient-suggestion bg-recipe-light text-recipe-dark px-3 py-1 rounded-full text-sm hover:bg-recipe-orange hover:text-white transition-colors" data-ingredients="egg, onion, bread">
+                            🍳 Breakfast
+                        </button>
+                        <button class="ingredient-suggestion bg-recipe-light text-recipe-dark px-3 py-1 rounded-full text-sm hover:bg-recipe-orange hover:text-white transition-colors" data-ingredients="potato, cumin, turmeric">
+                            🥔 Potato Curry
+                        </button>
+                        <button class="ingredient-suggestion bg-recipe-light text-recipe-dark px-3 py-1 rounded-full text-sm hover:bg-recipe-orange hover:text-white transition-colors" data-ingredients="milk, sugar, cardamom">
+                            🥛 Sweet Treat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-recipe-orange mb-4"></div>
+                <p class="text-lg text-gray-600">Finding perfect recipes for you...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold text-recipe-dark mb-2">🎉 Perfect Recipes Found!</h3>
+                    <p class="text-gray-600">Here are some delicious options based on your ingredients</p>
+                </div>
+                <div id="recipeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Recipe cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- No Results -->
+            <div id="noResults" class="hidden text-center py-12">
+                <div class="text-6xl mb-4">😔</div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">No recipes found</h3>
+                <p class="text-gray-500 mb-4">Try different ingredients or check your spelling</p>
+                <button 
+                    id="tryAgainButton"
+                    class="bg-recipe-orange text-white px-6 py-2 rounded-xl font-medium hover:bg-orange-600 transition-colors"
+                >
+                    Try Again
+                </button>
+            </div>
+
+            <!-- Future Feature Comment -->
+            <!-- 
+            TODO: Add image upload feature here
+            This section will allow users to upload a photo of their fridge/pantry
+            and use AI/ML to detect available ingredients automatically
+            
+            <div class="mt-16 p-6 bg-white rounded-2xl shadow-lg border-2 border-dashed border-gray-300">
+                <div class="text-center">
+                    <div class="text-4xl mb-4">📸</div>
+                    <h3 class="text-lg font-semibold text-recipe-dark mb-2">Coming Soon: Smart Fridge Scanner</h3>
+                    <p class="text-gray-600 mb-4">Upload a photo of your fridge and we'll detect ingredients automatically</p>
+                    <button class="bg-gray-300 text-gray-500 px-6 py-2 rounded-xl font-medium cursor-not-allowed">
+                        Upload Fridge Photo (Coming Soon)
+                    </button>
+                </div>
+            </div>
+            -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <div class="w-8 h-8 bg-recipe-orange rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold">🍛</span>
+                </div>
+                <span class="text-lg font-bold text-recipe-dark">Indian Recipe Finder</span>
+            </div>
+            <p class="text-gray-600 mb-4">
+                Made with ❤️ for home cooks everywhere
+            </p>
+            <div class="flex justify-center space-x-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-recipe-orange transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-recipe-orange transition-colors">Terms of Service</a>
+                <a href="#" class="hover:text-recipe-orange transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script>
+        // Indian Recipes Database
+        const recipes = [
+            {
+                name: "Masala Scrambled Eggs",
+                emoji: "🍳",
+                ingredients: ["egg", "onion", "tomato", "green chili", "turmeric", "cumin", "coriander"],
+                description: "Spicy Indian-style scrambled eggs with aromatic spices",
+                steps: [
+                    "Heat oil in a pan and add cumin seeds",
+                    "Add chopped onions and green chilies, sauté until golden",
+                    "Add tomatoes and cook until soft",
+                    "Add turmeric and beaten eggs",
+                    "Scramble gently and garnish with coriander"
+                ],
+                cookTime: "10 mins",
+                difficulty: "Easy"
+            },
+            {
+                name: "Jeera Rice",
+                emoji: "🍚",
+                ingredients: ["rice", "cumin", "bay leaf", "onion", "ghee"],
+                description: "Fragrant cumin-flavored rice, perfect as a side dish",
+                steps: [
+                    "Wash and soak rice for 30 minutes",
+                    "Heat ghee in a pot, add cumin seeds and bay leaf",
+                    "Add sliced onions and sauté until light brown",
+                    "Add rice and water, bring to boil",
+                    "Cover and cook on low heat for 15 minutes"
+                ],
+                cookTime: "25 mins",
+                difficulty: "Easy"
+            },
+            {
+                name: "Aloo Sabzi",
+                emoji: "🥔",
+                ingredients: ["potato", "turmeric", "cumin", "coriander", "onion", "tomato"],
+                description: "Simple and delicious spiced potato curry",
+                steps: [
+                    "Cut potatoes into cubes and boil until tender",
+                    "Heat oil, add cumin seeds",
+                    "Add onions and cook until golden",
+                    "Add tomatoes, turmeric, and spices",
+                    "Add boiled potatoes and mix well"
+                ],
+                cookTime: "20 mins",
+                difficulty: "Easy"
+            },
+            {
+                name: "Masala Chai",
+                emoji: "☕",
+                ingredients: ["milk", "tea", "ginger", "cardamom", "sugar", "cinnamon"],
+                description: "Traditional Indian spiced tea",
+                steps: [
+                    "Boil water with ginger and whole spices",
+                    "Add tea leaves and boil for 2 minutes",
+                    "Add milk and sugar",
+                    "Boil until frothy and strain",
+                    "Serve hot with biscuits"
+                ],
+                cookTime: "8 mins",
+                difficulty: "Easy"
+            },
+            {
+                name: "Bread Upma",
+                emoji: "🍞",
+                ingredients: ["bread", "onion", "green chili", "mustard seeds", "curry leaves", "turmeric"],
+                description: "Quick breakfast made with bread and spices",
+                steps: [
+                    "Cut bread into small pieces",
+                    "Heat oil, add mustard seeds and curry leaves",
+                    "Add onions and green chilies",
+                    "Add turmeric and bread pieces",
+                    "Mix well and cook for 5 minutes"
+                ],
+                cookTime: "12 mins",
+                difficulty: "Easy"
+            },
+            {
+                name: "Tomato Rice",
+                emoji: "🍅",
+                ingredients: ["rice", "tomato", "onion", "turmeric", "mustard seeds", "curry leaves"],
+                description: "Tangy and flavorful South Indian rice dish",
+                steps: [
+                    "Cook rice and keep aside",
+                    "Heat oil, add mustard seeds and curry leaves",
+                    "Add onions and cook until soft",
+                    "Add chopped tomatoes and spices",
+                    "Mix with cooked rice and serve"
+                ],
+                cookTime: "25 mins",
+                difficulty: "Medium"
+            },
+            {
+                name: "Kheer",
+                emoji: "🍮",
+                ingredients: ["milk", "rice", "sugar", "cardamom", "almonds", "raisins"],
+                description: "Creamy Indian rice pudding dessert",
+                steps: [
+                    "Boil milk in a heavy-bottomed pan",
+                    "Add washed rice and cook until soft",
+                    "Add sugar and cardamom powder",
+                    "Cook until thick and creamy",
+                    "Garnish with nuts and serve"
+                ],
+                cookTime: "45 mins",
+                difficulty: "Medium"
+            },
+            {
+                name: "Poha",
+                emoji: "🥣",
+                ingredients: ["poha", "onion", "potato", "turmeric", "mustard seeds", "curry leaves", "peanuts"],
+                description: "Light and nutritious flattened rice breakfast",
+                steps: [
+                    "Wash poha and drain well",
+                    "Heat oil, add mustard seeds and peanuts",
+                    "Add curry leaves, onions, and potatoes",
+                    "Add turmeric and salt",
+                    "Add poha, mix gently and cook for 5 minutes"
+                ],
+                cookTime: "15 mins",
+                difficulty: "Easy"
+            },
+            {
+                name: "Dal Tadka",
+                emoji: "🫘",
+                ingredients: ["lentils", "onion", "tomato", "garlic", "cumin", "turmeric", "coriander"],
+                description: "Comforting spiced lentil curry",
+                steps: [
+                    "Pressure cook lentils with turmeric",
+                    "Heat ghee, add cumin seeds",
+                    "Add garlic, onions, and tomatoes",
+                    "Add cooked dal and simmer",
+                    "Garnish with coriander and serve"
+                ],
+                cookTime: "30 mins",
+                difficulty: "Medium"
+            },
+            {
+                name: "Vegetable Pulao",
+                emoji: "🥕",
+                ingredients: ["rice", "mixed vegetables", "onion", "garam masala", "bay leaf", "cumin"],
+                description: "Aromatic rice dish with mixed vegetables",
+                steps: [
+                    "Soak rice for 30 minutes",
+                    "Heat ghee, add whole spices",
+                    "Add onions and vegetables",
+                    "Add rice and water",
+                    "Cook until rice is done"
+                ],
+                cookTime: "35 mins",
+                difficulty: "Medium"
+            }
+        ];
+
+        function setIngredients(ingredients) {
+            document.getElementById('ingredientInput').value = ingredients;
+            findRecipes();
+        }
+
+        function findRecipes() {
+            const input = document.getElementById('ingredientInput').value.toLowerCase().trim();
+            if (!input) return;
+
+            // Show loading state
+            showLoading();
+
+            // Simulate API delay for better UX
+            setTimeout(() => {
+                const userIngredients = input.split(',').map(ing => ing.trim());
+                const matchedRecipes = [];
+
+                recipes.forEach(recipe => {
+                    const matchCount = userIngredients.filter(userIng => 
+                        recipe.ingredients.some(recipeIng => 
+                            recipeIng.includes(userIng) || userIng.includes(recipeIng)
+                        )
+                    ).length;
+
+                    if (matchCount > 0) {
+                        matchedRecipes.push({
+                            ...recipe,
+                            matchCount,
+                            matchPercentage: Math.round((matchCount / userIngredients.length) * 100)
+                        });
+                    }
+                });
+
+                // Sort by match count and take top 5
+                matchedRecipes.sort((a, b) => b.matchCount - a.matchCount);
+                const topRecipes = matchedRecipes.slice(0, 5);
+
+                hideLoading();
+                displayRecipes(topRecipes);
+            }, 800);
+        }
+
+        function showLoading() {
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('noResults').classList.add('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+
+        function displayRecipes(recipes) {
+            const grid = document.getElementById('recipeGrid');
+            
+            if (recipes.length === 0) {
+                document.getElementById('noResults').classList.remove('hidden');
+                return;
+            }
+
+            grid.innerHTML = '';
+            document.getElementById('resultsSection').classList.remove('hidden');
+
+            recipes.forEach((recipe, index) => {
+                const card = createRecipeCard(recipe, index);
+                grid.appendChild(card);
+            });
+        }
+
+        function createRecipeCard(recipe, index) {
+            const card = document.createElement('div');
+            card.className = 'recipe-card bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl fade-in';
+            card.style.animationDelay = `${index * 0.1}s`;
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-3xl">${recipe.emoji}</div>
+                    <div class="text-right">
+                        <div class="text-xs text-dinezzy-orange font-semibold">${recipe.matchPercentage}% Match</div>
+                        <div class="text-xs text-gray-500">${recipe.cookTime} • ${recipe.difficulty}</div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-bold text-dinezzy-dark mb-2">${recipe.name}</h3>
+                <p class="text-gray-600 text-sm mb-4">${recipe.description}</p>
+                
+                <div class="mb-4">
+                    <h4 class="font-semibold text-dinezzy-dark mb-2 text-sm">Ingredients:</h4>
+                    <div class="flex flex-wrap gap-1">
+                        ${recipe.ingredients.slice(0, 6).map(ing => 
+                            `<span class="bg-dinezzy-cream text-dinezzy-orange text-xs px-2 py-1 rounded-full">${ing}</span>`
+                        ).join('')}
+                        ${recipe.ingredients.length > 6 ? `<span class="text-xs text-gray-500">+${recipe.ingredients.length - 6} more</span>` : ''}
+                    </div>
+                </div>
+                
+                <button onclick="toggleSteps(${recipes.indexOf(recipe)})" class="w-full bg-dinezzy-orange text-white py-2 rounded-xl font-medium hover:bg-orange-600 transition-colors">
+                    View Recipe Steps
+                </button>
+                
+                <div id="steps-${recipes.indexOf(recipe)}" class="hidden mt-4 pt-4 border-t border-gray-100">
+                    <h4 class="font-semibold text-dinezzy-dark mb-2 text-sm">Cooking Steps:</h4>
+                    <ol class="text-sm text-gray-600 space-y-1">
+                        ${recipe.steps.map((step, i) => 
+                            `<li class="flex"><span class="text-dinezzy-orange font-semibold mr-2">${i + 1}.</span><span>${step}</span></li>`
+                        ).join('')}
+                    </ol>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function toggleSteps(recipeIndex) {
+            const stepsDiv = document.getElementById(`steps-${recipeIndex}`);
+            const button = stepsDiv.previousElementSibling;
+            
+            if (stepsDiv.classList.contains('hidden')) {
+                stepsDiv.classList.remove('hidden');
+                button.textContent = 'Hide Recipe Steps';
+            } else {
+                stepsDiv.classList.add('hidden');
+                button.textContent = 'View Recipe Steps';
+            }
+        }
+
+        // Enter key support
+        document.getElementById('ingredientInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                findRecipes();
+            }
+        });
+
+        // Auto-focus on input
+        document.getElementById('ingredientInput').focus();
+    </script>
+</body>
+</html>
